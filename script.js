@@ -28,12 +28,40 @@ const GameBoard = (() => {
         return currentBoard[index]==="" ? true : false;
     }
 
+    let checkRow = (symbol, index,row) =>{
+        
+        if(currentBoard[0 + (row*3)] == currentBoard[1 + (row*3)] && currentBoard[0+ (row*3)] == currentBoard[2+ (row*3)]){
+            console.log("Winner");
+        }
+    } 
+
+    let checkColumn = (symbol, column) =>{
+
+        if(currentBoard[0 + column*1] == currentBoard[3 +column*1] && currentBoard[0+column*1] == currentBoard[6+column*1]){
+            console.log("Winner");
+        }
+
+    } 
+
+    let checkDiagonal = () => {
+
+    }
+
+    let checkOtherDiagonal = () => {
+        
+    }
+    
+    let checkForWinner = (symbol, index,column,row) =>{
+        checkRow(symbol, index,row);
+        checkColumn(symbol,column);
+    }
     return {
         currentBoard,
         updateBoard,
         clearBoard,
         renderBoard,
         isMoveValid,
+        checkForWinner
     }
 })();
 
@@ -83,13 +111,19 @@ const GameLogic = (() =>{
     
     fieldRef.forEach(field => {
         field.addEventListener("click",(e) =>{
-            if(GameBoard.isMoveValid(e.target.id)){
+            let fieldChoice = e.target.id
+            if(GameBoard.isMoveValid(fieldChoice)){
+                let column = e.target.classList[1].split("c")[1];
+                let row = e.target.parentElement.classList[0].split("r")[1];
                 if(p1Turn == true){
-                    GameBoard.updateBoard(player1.getSymbol(),e.target.id);
+                    
+                    GameBoard.updateBoard(player1.getSymbol(),fieldChoice);
                     p1Turn = false;
+                    GameBoard.checkForWinner(player1.getSymbol(),fieldChoice,column,row)
                 }else{
-                    GameBoard.updateBoard(player2.getSymbol(),e.target.id);
+                    GameBoard.updateBoard(player2.getSymbol(),fieldChoice);
                     p1Turn = true;
+                    GameBoard.checkForWinner(player2.getSymbol(),fieldChoice,column,row)
                 }
             }
         })
