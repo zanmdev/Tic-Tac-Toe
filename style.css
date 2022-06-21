@@ -1,11 +1,11 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Lato', sans-serif;
 }
 
 
-
-
+/*Game start modal */
 .modal{
     height: 100%;
     width: 100%;
@@ -14,9 +14,94 @@
     position: fixed;
     background-color: rgba(0,0,0,0.4);
     padding-top: 100px;
+    text-align: center;
+}
+
+.selectionBox{
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.p1Box,.p2Box {
+    width: 300px;
+    height: 100px;
+    padding: 15px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.p1Box > div ,.p2Box >div{
+    gap: 10px;
+    display: flex;
+}
+
+label{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.p1Symbol, .p2Symbol{
+    font-size: 36px;
+    font-weight: bold;
+}
+
+#startGame{
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Header */
+.heading{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/*Tic Tac Toe Board */
+.game-board{
+    justify-content: center;
+    display: grid;
+    gap: 5px;
+    max-width: 350px;
+    margin: 0 auto;
+    background-color: rgb(184, 165, 202);
+    padding: 20px;
+    border-radius: 25px;
+  
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.row > button{
+    font-size: 32px;
+    font-weight: bold;
 }
 
 .field{
     width: 100px;
     height: 100px;
 }
+
+
+/*Info Box */
+.playerInfo{
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center; 
+    margin-top: 25px;
+}
+
+.displayText{
+    font-size: 18px;
+    font-weight: bold;
+}
+

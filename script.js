@@ -118,7 +118,7 @@ const Players = (symbol, name, isAI) =>{
 
 const displayController = (() =>{
     let buttonContainer = document.querySelectorAll(".field");
-    
+    let infoText = document.querySelector(".displayText")
     let disableField = () =>{
         buttonContainer.forEach(field => {
             field.disabled = true;
@@ -131,12 +131,16 @@ const displayController = (() =>{
         });
     }
 
-    let displayCurrentPlayer = () =>{
-
+    let displayCurrentPlayer = (player) =>{
+        infoText.textContent = " " +player.getName() + " make your selection now";  
     }
 
-    let displayWinner = () =>{
+    let displayWinner = (player) =>{
+        infoText.textContent = " "+player.getName() + " WINS!";
+    }
 
+    let displayTie = () =>{
+        infoText.textContent = "Tie Game :(";
     }
 
     return {   
@@ -144,6 +148,7 @@ const displayController = (() =>{
         enableField,
         displayCurrentPlayer,
         displayWinner,
+        displayTie,
 
     }
 })();
@@ -169,7 +174,8 @@ const GameLogic = (() =>{
         player1 = Players("X",p1Name.value,false);
         player2 = Players("O",p2Name.value,false);
         currentPlayer = player1;
-        modal.style.display = "none";   
+        modal.style.display = "none";  
+        displayController.displayCurrentPlayer(currentPlayer); 
     }
     
     const restartGame = () =>{
@@ -195,14 +201,19 @@ const GameLogic = (() =>{
                 let row = e.target.parentElement.classList[0].split("r")[1];
 
                     GameBoard.updateBoard(currentPlayer.getSymbol(),fieldChoice);
-                    currentPlayer = swapCurrentPlayer(currentPlayer); 
                     
-                    if(!GameBoard.checkForTie()){
-                        if(GameBoard.checkForWinner(currentPlayer.getSymbol(),fieldChoice,column,row)){
-                            displayController.disableField();
-                            displayController.displayWinner();
+                    if(!GameBoard.checkForWinner(currentPlayer.getSymbol(),fieldChoice,column,row)){
+                        if(!GameBoard.checkForTie()){
+                            currentPlayer = swapCurrentPlayer(currentPlayer); 
+                            displayController.displayCurrentPlayer(currentPlayer);
+                        }else{
+                            displayController.displayTie();
                         }
-                    }     
+                    }else{
+                        displayController.disableField();
+                        displayController.displayWinner(currentPlayer);
+                    }
+ 
             }
         })
     });

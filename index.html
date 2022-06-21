@@ -7,48 +7,60 @@
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+    </style> 
+
 </head>
 <body>
-
     <div class="modal">
-        <div class="p1Box">
-            <label>Player 1 Name:</label>
-            <input type="text" name="p1Name" id="p1Name">
-        </div>
-        
-        <div class="p2Box">
-            <label>Player 2 Name:</label>
-            <input type="text" name="p2Name" id="p2Name">
+        <div class="selectionBox">
+            <div class="p1Box">
+                <div>
+                    <label>Player 1 Name:</label>
+                    <input type="text" name="p1Name" id="p1Name">
+                </div>
+                <p class="p1Symbol">X</p>
+            </div>
+            
+            <div class="p2Box">
+                <div>
+                    <label>Player 2 Name:</label>
+                    <input type="text" name="p2Name" id="p2Name">
+                </div>
+                <p class="p2Symbol">O</p>
+            </div>
         </div>
 
         <input type="button" id="startGame" value="Start Game">
     </div>
 
-
-
     <header>
-        <h1>Tic-Tac-Toe</h1>
+        <h1 class="heading">Tic-Tac-Toe</h1>
     </header>
-
 
     <div class="board-container">
 
         <div class="game-board">
-            <div class="r0">
+            <div class="r0 row">
                 <button class="field c0" id="0"></button>
                 <button class="field c1" id="1"></button>
                 <button class="field c2" id="2"></button>
             </div>
-            <div class="r1">
+            <div class="r1 row">
                 <button class="field c0" id="3"></button>
                 <button class="field c1" id="4"></button>
                 <button class="field c2" id="5"></button>
             </div>
-            <div class="r2">
+            <div class="r2 row">
                 <button class="field c0" id="6"></button>
                 <button class="field c1" id="7"></button>
                 <button class="field c2" id="8"></button>
             </div>
+        </div>
+
+        <div class="playerInfo">
+            <p class="displayText"></p>
         </div>
     </div>
 </body>
