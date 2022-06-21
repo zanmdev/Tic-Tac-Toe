@@ -11,6 +11,7 @@ const GameBoard = (() => {
 
     let clearBoard = () =>{
         currentBoard = ["","","","","","","","",""];
+        renderBoard();
     }
 
     let renderBoard = () =>{
@@ -59,14 +60,30 @@ const GameBoard = (() => {
     let checkForWinner = (symbol, index,column,row) =>{
 
         if(checkRow(symbol, index,row) || checkColumn(symbol,column)){
+            console.log("ROW / COLUMN WIN");
             return true;
+
         }
         if(index != 1 && index != 3 && index != 5 && index != 7 && currentBoard[4] != ""){
                 if(checkDiagonal() || checkOtherDiagonal()){
+                    console.log("DIAG WIN");
                     return true;
+
+
                 }
         }
         return false;
+    }
+
+    let checkForTie = () =>{
+        for (let i = 0; i < currentBoard.length; i++) {
+            if(currentBoard[i] ===""){
+                console.log("No Tie");
+                return false;
+            }
+        }
+        console.log("TIE");
+        return true;
     }
 
     return {
@@ -75,7 +92,8 @@ const GameBoard = (() => {
         clearBoard,
         renderBoard,
         isMoveValid,
-        checkForWinner
+        checkForWinner,
+        checkForTie
     }
 })();
 
@@ -98,13 +116,46 @@ const Players = (symbol, name, isAI) =>{
     };
 }
 
+const displayController = (() =>{
+    let buttonContainer = document.querySelectorAll(".field");
+    
+    let disableField = () =>{
+        buttonContainer.forEach(field => {
+            field.disabled = true;
+        });
+    }
+
+    let enableField = () =>{
+        buttonContainer.forEach(field => {
+            field.disabled = false;
+        });
+    }
+
+    let displayCurrentPlayer = () =>{
+
+    }
+
+    let displayWinner = () =>{
+
+    }
+
+    return {   
+        disableField,
+        enableField,
+        displayCurrentPlayer,
+        displayWinner,
+
+    }
+})();
+
 
 const GameLogic = (() =>{
     //Variables
     let isGameActive = false;
-    let p1Turn = true;
     let player1;
     let player2;
+    let currentPlayer;
+    
 
     //DOM References
     let fieldRef = document.querySelectorAll(".field");
@@ -117,27 +168,41 @@ const GameLogic = (() =>{
     const startGame = () =>{ 
         player1 = Players("X",p1Name.value,false);
         player2 = Players("O",p2Name.value,false);
+        currentPlayer = player1;
         modal.style.display = "none";   
-    } 
+    }
+    
+    const restartGame = () =>{
+        GameBoard.clearBoard();
+        displayController.enableField();
+        currentPlayer = player1;
+    }
+
+    const swapCurrentPlayer = (player) =>{
+        return player === player1 ?  player2 :  player1; 
+    }
 
     //Event Listeners
     startGameRef.addEventListener("click",startGame)
-    
+
     fieldRef.forEach(field => {
         field.addEventListener("click",(e) =>{
             let fieldChoice = e.target.id
+
             if(GameBoard.isMoveValid(fieldChoice)){
+
                 let column = e.target.classList[1].split("c")[1];
                 let row = e.target.parentElement.classList[0].split("r")[1];
-                if(p1Turn == true){
-                    GameBoard.updateBoard(player1.getSymbol(),fieldChoice);
-                    p1Turn = false;
-                    GameBoard.checkForWinner(player1.getSymbol(),fieldChoice,column,row)
-                }else{
-                    GameBoard.updateBoard(player2.getSymbol(),fieldChoice);
-                    p1Turn = true;
-                    GameBoard.checkForWinner(player2.getSymbol(),fieldChoice,column,row)
-                }
+
+                    GameBoard.updateBoard(currentPlayer.getSymbol(),fieldChoice);
+                    currentPlayer = swapCurrentPlayer(currentPlayer); 
+                    
+                    if(!GameBoard.checkForTie()){
+                        if(GameBoard.checkForWinner(currentPlayer.getSymbol(),fieldChoice,column,row)){
+                            displayController.disableField();
+                            displayController.displayWinner();
+                        }
+                    }     
             }
         })
     });
