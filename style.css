@@ -91,6 +91,13 @@ label{
     height: 100px;
 }
 
+#restart-btn{
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 5px 10px;
+}
+
 
 /*Info Box */
 .playerInfo{

@@ -165,6 +165,7 @@ const GameLogic = (() =>{
     //DOM References
     let fieldRef = document.querySelectorAll(".field");
     let startGameRef = document.querySelector("#startGame");
+    let restartGameRef = document.querySelector("#restart-btn");
     let modal = document.querySelector(".modal");
     let p1Name = document.querySelector("#p1Name");
     let p2Name = document.querySelector("#p2Name");
@@ -182,6 +183,7 @@ const GameLogic = (() =>{
         GameBoard.clearBoard();
         displayController.enableField();
         currentPlayer = player1;
+        displayController.displayCurrentPlayer(currentPlayer);
     }
 
     const swapCurrentPlayer = (player) =>{
@@ -189,7 +191,8 @@ const GameLogic = (() =>{
     }
 
     //Event Listeners
-    startGameRef.addEventListener("click",startGame)
+    startGameRef.addEventListener("click",startGame);
+    restartGameRef.addEventListener("click",restartGame);
 
     fieldRef.forEach(field => {
         field.addEventListener("click",(e) =>{
