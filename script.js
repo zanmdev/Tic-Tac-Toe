@@ -28,33 +28,47 @@ const GameBoard = (() => {
         return currentBoard[index]==="" ? true : false;
     }
 
-    let checkRow = (symbol, index,row) =>{
-        
+    let checkRow = (symbol, index,row) =>{   
         if(currentBoard[0 + (row*3)] == currentBoard[1 + (row*3)] && currentBoard[0+ (row*3)] == currentBoard[2+ (row*3)]){
-            console.log("Winner");
+
+            return true;
         }
     } 
 
     let checkColumn = (symbol, column) =>{
-
         if(currentBoard[0 + column*1] == currentBoard[3 +column*1] && currentBoard[0+column*1] == currentBoard[6+column*1]){
-            console.log("Winner");
-        }
 
+            return true;
+        }
     } 
 
     let checkDiagonal = () => {
+        if(currentBoard[0] == currentBoard[4] && currentBoard[0] == currentBoard[8]){
+            return true;
+        }
 
     }
 
     let checkOtherDiagonal = () => {
-        
+        if(currentBoard[2] == currentBoard[4] && currentBoard[2] == currentBoard[6]){
+
+            return true;
+        }
     }
     
     let checkForWinner = (symbol, index,column,row) =>{
-        checkRow(symbol, index,row);
-        checkColumn(symbol,column);
+
+        if(checkRow(symbol, index,row) || checkColumn(symbol,column)){
+            return true;
+        }
+        if(index != 1 && index != 3 && index != 5 && index != 7 && currentBoard[4] != ""){
+                if(checkDiagonal() || checkOtherDiagonal()){
+                    return true;
+                }
+        }
+        return false;
     }
+
     return {
         currentBoard,
         updateBoard,
@@ -116,7 +130,6 @@ const GameLogic = (() =>{
                 let column = e.target.classList[1].split("c")[1];
                 let row = e.target.parentElement.classList[0].split("r")[1];
                 if(p1Turn == true){
-                    
                     GameBoard.updateBoard(player1.getSymbol(),fieldChoice);
                     p1Turn = false;
                     GameBoard.checkForWinner(player1.getSymbol(),fieldChoice,column,row)
